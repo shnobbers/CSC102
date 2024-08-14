@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Set character encoding -->
+    <meta charset="UTF-8">
+    <!-- Set the viewport to make the website look good on all devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Set the title of the page -->
+    <title>Palindrome Checker</title>
+    <!-- Link to Google Fonts for custom font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <!-- Internal CSS for styling -->
+    <style>
+        /* Apply the custom font */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f8ff; /* Light blue background */
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+
+        /* Style the container holding the input form */
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        /* Style the input field */
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+
+        /* Style the submit button */
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Style the button on hover */
+        button:hover {
+            background-color: #555;
+        }
+
+        /* Style the result message */
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Add some style to the image */
+        img {
+            width: 100px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container div to hold all the elements -->
+    <div class="container">
+        <!-- Heading for the page -->
+        <h1>Palindrome Checker</h1>
+        <!-- Form to get user input -->
+        <form id="palindromeForm">
+            <!-- Input field for the user to enter a string -->
+            <input type="text" id="userInput" placeholder="Enter a word" required>
+            <!-- Button to submit the form -->
+            <button type="submit">Check</button>
+        </form>
+        <!-- Div to display the result -->
+        <div class="result" id="result"></div>
+        <!-- Image to be shown on successful palindrome check -->
+        <img src="https://i.imgur.com/A0dtwJi.png" id="palindromeImage" alt="Palindrome" style="display: none;">
+    </div>
+
+    <!-- JavaScript to handle the logic -->
+    <script>
+        // Get references to the form, input field, result div, and image
+        const form = document.getElementById('palindromeForm');
+        const userInput = document.getElementById('userInput');
+        const resultDiv = document.getElementById('result');
+        const palindromeImage = document.getElementById('palindromeImage');
+
+        // Function to check if a string is a palindrome
+        function isPalindrome(str) {
+            // Remove spaces and convert the string to lowercase
+            const cleanedStr = str.replace(/\s+/g, '').toLowerCase();
+            // Check if the cleaned string is equal to its reverse
+            return cleanedStr === cleanedStr.split('').reverse().join('');
+        }
+
+        // Add an event listener to the form for the submit event
+        form.addEventListener('submit', function(event) {
+            // Prevent the form from submitting and reloading the page
+            event.preventDefault();
+            // Get the user's input
+            const inputStr = userInput.value;
+
+            // Check if the input string is a palindrome
+            if (isPalindrome(inputStr)) {
+                // Display the result as a palindrome
+                resultDiv.textContent = `"${inputStr}" is a palindrome!`;
+                // Show the image
+                palindromeImage.style.display = 'block';
+            } else {
+                // Display the result as not a palindrome
+                resultDiv.textContent = `"${inputStr}" is not a palindrome.`;
+                // Hide the image
+                palindromeImage.style.display = 'none';
+            }
+
+            // Clear the input field for the next input
+            userInput.value = '';
+
+            // Ask the user if they want to check another word
+            setTimeout(function() {
+                if (confirm('Do you want to check another word?')) {
+                    // Clear the result and focus back on the input field
+                    resultDiv.textContent = '';
+                    palindromeImage.style.display = 'none';
+                    userInput.focus();
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
