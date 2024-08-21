@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Input Validation</title>
+    
+    <!-- Link to Google Fonts for custom font styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Set background color and custom font for the body */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Styling the container to hold the form */
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Styling input fields */
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        /* Styling the button */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* Button hover effect */
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Warning message styling */
+        .warning {
+            color: red;
+            margin-bottom: 10px;
+        }
+
+        /* Secret message styling */
+        .secret-message {
+            color: #333;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+
+        /* Adding a creative background image */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.example.com/background.jpg'); /* Replace with an actual image URL */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main container for the form -->
+    <div class="container">
+        <h2>User Information</h2>
+        
+        <!-- Input field for first name -->
+        <input type="text" id="firstName" placeholder="Enter your first name">
+        
+        <!-- Input field for last name -->
+        <input type="text" id="lastName" placeholder="Enter your last name">
+        
+        <!-- Input field for zip code -->
+        <input type="text" id="zipCode" placeholder="Enter your zip code">
+        
+        <!-- Area to show warning messages -->
+        <div class="warning" id="warningMessage"></div>
+        
+        <!-- Button to submit the form -->
+        <button onclick="validateForm()">Submit</button>
+        
+        <!-- The hidden secret message -->
+        <div class="secret-message" id="secretMessage">Congratulations! You've unlocked the secret message.</div>
+    </div>
+
+    <script>
+        // Function to validate the form inputs
+        function validateForm() {
+            // Get the values from the input fields
+            var firstName = document.getElementById('firstName').value;
+            var lastName = document.getElementById('lastName').value;
+            var zipCode = document.getElementById('zipCode').value;
+
+            // Combine first and last names into a single variable
+            var fullName = firstName + " " + lastName;
+
+            // Reference to the warning message div
+            var warningMessage = document.getElementById('warningMessage');
+            
+            // Reset any previous warning messages
+            warningMessage.innerHTML = "";
+
+            // Check if the combined name exceeds 20 characters
+            if (fullName.length > 20) {
+                warningMessage.innerHTML = "Your full name should not exceed 20 characters.";
+                return; // Stop further execution
+            }
+
+            // Check if the zip code is valid (exactly 5 digits)
+            var zipCodePattern = /^\d{5}$/;
+            if (!zipCodePattern.test(zipCode)) {
+                warningMessage.innerHTML = "Please enter a valid 5-digit zip code.";
+                return; // Stop further execution
+            }
+
+            // If all inputs are valid, show the secret message
+            document.getElementById('secretMessage').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
