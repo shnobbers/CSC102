@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Set character encoding -->
+    <meta charset="UTF-8">
+    <!-- Set the viewport for responsive design -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Set the title of the page -->
+    <title>Palindrome Checker with Sound</title>
+    <!-- Link to Google Fonts for custom font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+    <!-- Internal CSS for styling -->
+    <style>
+        /* Apply the custom font and style the body */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #e6f7ff; /* Light blue background */
+            color: #333;
+            text-align: center;
+            padding: 50px;
+        }
+
+        /* Style the container for content */
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 450px;
+            margin: auto;
+        }
+
+        /* Style the input field */
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+
+        /* Style the submit button */
+        button {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        /* Add hover effect to the button */
+        button:hover {
+            background-color: #555;
+        }
+
+        /* Style the result text */
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Style for the sound control button */
+        .sound-control {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Adjust the background image so that it appears lower on the page */
+        body {
+            background-image: url('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png');
+            background-size: 500px; /* Set the size of the image */
+            background-position: center bottom; /* Position the image at the bottom */
+            background-repeat: no-repeat; /* Ensure the image doesn't repeat */
+            background-attachment: fixed; /* Fix the image in place */
+        }
+
+        /* Style for the animated title */
+        h1 {
+            font-size: 32px;
+            color: #1a1a1a;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        /* Animation for fading in the title */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Container div for content -->
+    <div class="container">
+        <!-- Animated title for the page -->
+        <h1>Palindrome Checker with Sound</h1>
+        <!-- Form to get user input -->
+        <form id="palindromeForm">
+            <!-- Input field for entering a word -->
+            <input type="text" id="userInput" placeholder="Enter a word" required>
+            <!-- Button to check the word -->
+            <button type="submit">Check</button>
+        </form>
+        <!-- Div to display the result -->
+        <div class="result" id="result"></div>
+        <!-- Image displayed on palindrome match -->
+        <img src="https://i.imgur.com/A0dtwJi.png" id="palindromeImage" alt="Palindrome" style="display: none;">
+        <!-- Button to control background sound -->
+        <div class="sound-control" id="soundControl">Toggle Background Sound</div>
+    </div>
+
+    <!-- Background music using HTML audio element -->
+    <audio id="backgroundMusic" loop>
+        <!-- Source for the background sound -->
+        <source src="https://www.bensound.com/bensound-music/bensound-creativeminds.mp3" type="audio/mp3">
+        <!-- Message for unsupported browsers -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- JavaScript for interactivity -->
+    <script>
+        // Get references to the form, input, result, image, sound control button, and background music
+        const form = document.getElementById('palindromeForm');
+        const userInput = document.getElementById('userInput');
+        const resultDiv = document.getElementById('result');
+        const palindromeImage = document.getElementById('palindromeImage');
+        const soundControl = document.getElementById('soundControl');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+
+        // Start playing the background music when the page loads
+        window.onload = function() {
+            backgroundMusic.play();
+        };
+
+        // Function to check if a word is a palindrome
+        function isPalindrome(str) {
+            // Remove spaces and convert to lowercase
+            const cleanedStr = str.replace(/\s+/g, '').toLowerCase();
+            // Check if cleaned string matches its reverse
+            return cleanedStr === cleanedStr.split('').reverse().join('');
+        }
+
+        // Add event listener to the form submit event
+        form.addEventListener('submit', function(event) {
+            // Prevent the form from submitting (no page reload)
+            event.preventDefault();
+            // Get the user input
+            const inputStr = userInput.value;
+
+            // Check if the input is a palindrome
+            if (isPalindrome(inputStr)) {
+                // Display success message and show image
+                resultDiv.textContent = `"${inputStr}" is a palindrome!`;
+                palindromeImage.style.display = 'block';
+            } else {
+                // Display failure message and hide image
+                resultDiv.textContent = `"${inputStr}" is not a palindrome.`;
+                palindromeImage.style.display = 'none';
+            }
+
+            // Clear the input field for the next word
+            userInput.value = '';
+
+            // Prompt the user to check another word
+            setTimeout(function() {
+                if (confirm('Do you want to check another word?')) {
+                    // Clear the result and refocus on the input field
+                    resultDiv.textContent = '';
+                    palindromeImage.style.display = 'none';
+                    userInput.focus();
+                }
+            }, 1000);
+        });
+
+        // Toggle background sound on and off
+        soundControl.addEventListener('click', function() {
+            if (backgroundMusic.paused) {
+                // Play the music if it's paused
+                backgroundMusic.play();
+                soundControl.textContent = 'Pause Background Sound';
+            } else {
+                // Pause the music if it's playing
+                backgroundMusic.pause();
+                soundControl.textContent = 'Play Background Sound';
+            }
+        });
+    </script>
+</body>
+</html>
