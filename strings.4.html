@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Meme</title>
+    <!-- External CSS for background and styling -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light background color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            position: relative; /* Added to contain the absolute-positioned image */
+        }
+        #catImage {
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            transform: translate(-25%, -25%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Start Button -->
+    <button id="startBtn" onclick="startMoving()">Start</button>
+
+    <!-- Stop Button -->
+    <button id="stopBtn" onclick="stopMoving()" disabled>Stop</button>
+
+    <!-- Cat Meme -->
+    <img id="catImage" src="cat.jpg" alt="Cat Meme">
+
+    <!-- JavaScript to move the image -->
+    <script>
+        // Variable to hold the interval ID for the movement
+        let moveInterval;
+
+        // Function to start moving the image
+        function startMoving() {
+            // Disable the start button and enable the stop button
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('stopBtn').disabled = false;
+
+            // Start moving the image every 500ms
+            moveInterval = setInterval(moveImage, 500);
+        }
+
+        // Function to stop moving the image
+        function stopMoving() {
+            // Disable the stop button and enable the start button
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+
+            // Stop the movement by clearing the interval
+            clearInterval(moveInterval);
+        }
+
+        // Function to randomly move the image around the page
+        function moveImage() {
+            const img = document.getElementById('catImage');
+            const maxX = window.innerWidth - img.clientWidth;
+            const maxY = window.innerHeight - img.clientHeight;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            // Apply the new position to the image
+            img.style.transform = `translate(${randomX}px, ${randomY}px)`;
+        }
+    </script>
+</body>
+</html>
